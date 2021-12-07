@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 class ReviewVote(models.Model):
     class Meta:
         db_table = 'review_vote'
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'review'], name='unique_review_vote')
+        ]
 
     # relation
     user = models.ForeignKey(
