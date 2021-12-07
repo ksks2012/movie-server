@@ -10,7 +10,7 @@
 ## 사용 기술 및 tools
 - Django, DRF, drf-spectacular, sqlite3
 ## 모델링
-![img_1.png](img_1.png)
+![image](https://user-images.githubusercontent.com/68194553/145079543-d82bbc58-683b-46e4-a89b-ebadaa771c2c.png)
 
 ## API 문서 (로컬 환경 실행 후)
 - http://127.0.0.1:8000/api/schema/swagger-ui/
@@ -68,5 +68,3 @@
 </div>
 </details>
 
-# Reference
-- 본 과제는 저작권의 보호를 받으며, 문제에 대한 정보를 배포하는 등의 행위를 금지 합니다.
