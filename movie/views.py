@@ -8,14 +8,16 @@ from movie.serializers import MovieSerializer, MovieDetailSerializer
 
 
 class MovieViewSet(viewsets.GenericViewSet):
+    queryset = Movie.objects.all()
     permission_classes = [AllowAny]
-
+    serializer_class = MovieSerializer
     def list(self, request):
         """
         영화 리스트 조회
         - GET /movies/
         """
-        pass
+        movies = Movie.objects.all()
+        return self.get_paginated_response(MovieSerializer(self.paginate_queryset(movies), many=True).data)
 
     def retrieve(self, request, pk):
         """
