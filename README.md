@@ -13,7 +13,8 @@
 ![image](https://user-images.githubusercontent.com/68194553/145079543-d82bbc58-683b-46e4-a89b-ebadaa771c2c.png)
 
 ## API 문서 (로컬 환경 실행 후)
-- http://127.0.0.1:8000/api/schema/swagger-ui/
+- http://127.0.0.1:8000/api/schema/swagger-ui/.  
+- 유저인증은 header에 {"Authorization": "Token {key}"}.  
 <details>
  <summary><b>API 리스트</b></summary>
 <div markdown="1">
@@ -60,8 +61,8 @@
     $ python3 -m venv .venv
     $ source .venv/bin/activate
     $ pip install -r requirements.txt
-    $ python manage.py migrate
     $ python manage.py runserver
+    # 유저인증은 header에 {"Authorization": "Token {key}"}
     ```
 
 
