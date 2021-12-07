@@ -1,3 +1,4 @@
+from django.utils.decorators import method_decorator
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -5,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from movie.models import Movie
 from movie.serializers import MovieSerializer, MovieDetailSerializer
 from movie.services import MovieService
+from schema.movie import MovieAutoSchema
 
 
 class MovieViewSet(viewsets.GenericViewSet):
@@ -12,6 +14,7 @@ class MovieViewSet(viewsets.GenericViewSet):
     serializer_class = MovieSerializer
     permission_classes = [AllowAny]
 
+    @method_decorator(**MovieAutoSchema.list_schema)
     def list(self, request):
         """
         영화 리스트 조회
@@ -23,6 +26,7 @@ class MovieViewSet(viewsets.GenericViewSet):
         rtn = MovieSerializer(paginated_movies, many=True).data
         return self.get_paginated_response(rtn)
 
+    @method_decorator(**MovieAutoSchema.retrieve_schema)
     def retrieve(self, request, pk):
         """
         영화 디테일 조회

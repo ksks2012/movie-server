@@ -20,7 +20,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
-    reviews = serializers.SerializerMethodField(read_only=True)
+    reviews = ReviewSerializer(read_only=True, many=True)
 
     class Meta:
         model = Movie
@@ -33,6 +33,3 @@ class MovieDetailSerializer(serializers.ModelSerializer):
             'summary',
             'reviews',
         )
-
-    def get_reviews(self, movie):
-        return ReviewSerializer(movie.reviews, many=True).data

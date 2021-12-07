@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -10,6 +11,8 @@ from user.services import UserService
 
 
 class UserViewSet(viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated()]
 
     def get_permissions(self):

@@ -39,6 +39,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
 ]
 
 PROJECT_APPS = [
@@ -65,7 +66,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Movie-Server API',
+    'DESCRIPTION': 'movie-server api',
+    'VERSION': '1.0.0',
 }
 
 ROOT_URLCONF = 'movie_server.urls'

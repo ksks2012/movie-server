@@ -10,6 +10,8 @@ from review.services import ReviewService
 
 
 class ReviewViewSet(viewsets.GenericViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated()]
 
     def get_permissions(self):

@@ -1,15 +1,19 @@
 from django.db import transaction
+from django.utils.decorators import method_decorator
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from schema.vote import ReviewVoteAutoSchema
 from vote.models import ReviewVote
 from vote.serializers import ReviewVoteSerializer
 from vote.services import ReviewVoteService
 
 
 class ReviewVoteViewSet(viewsets.GenericViewSet):
+    queryset = ReviewVote.objects.all()
+    serializer_class = ReviewVoteSerializer
     permission_classes = [IsAuthenticated]
 
     @transaction.atomic
@@ -25,6 +29,7 @@ class ReviewVoteViewSet(viewsets.GenericViewSet):
         rtn = ReviewVoteSerializer(review_vote).data
         return Response(rtn, status=status.HTTP_201_CREATED)
 
+    @method_decorator(**ReviewVoteAutoSchema.destroy_schema)
     @transaction.atomic
     def destroy(self, request, pk):
         """
