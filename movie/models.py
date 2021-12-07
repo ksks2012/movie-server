@@ -9,13 +9,14 @@ class Movie(models.Model):
     #
     # own
     title = models.TextField()
-    year = models.IntegerField()
+    year = models.IntegerField(null=True, blank=True)
     rating = models.DecimalField(
         max_digits=3,
         decimal_places=1,
+        default=0
     )
-    genres = models.TextField()
-    summary = models.TextField()
+    genres = models.TextField(null=True, blank=True)
+    summary = models.TextField(null=True, blank=True)
 
     # meta
     is_yts = models.BooleanField(default=False)
