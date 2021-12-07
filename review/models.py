@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -6,6 +7,12 @@ class Review(models.Model):
         db_table = 'review'
 
     # relation
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='reviews',
+        null=True
+    )
     movie = models.ForeignKey(
         'movie.Movie',
         on_delete=models.CASCADE,
