@@ -14,6 +14,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'movie_id',
             'text',
             'rating',
+            'count_vote',
             'created_at',
             'updated_at',
         )
