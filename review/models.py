@@ -1,3 +1,24 @@
 from django.db import models
 
-# Create your models here.
+
+class Review(models.Model):
+    class Meta:
+        db_table = 'review'
+
+    # relation
+    movie = models.ForeignKey(
+        'movie.Movie',
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+
+    # own
+    text = models.TextField()
+    rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+    )
+
+    # meta
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
