@@ -1,11 +1,12 @@
 from django.db import transaction
+
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from vote.models import ReviewVote
 from vote.serializers import ReviewVoteSerializer
+from vote.services import ReviewVoteService
 
 
 class ReviewVoteViewSet(viewsets.GenericViewSet):
@@ -17,14 +18,12 @@ class ReviewVoteViewSet(viewsets.GenericViewSet):
         영화 리뷰 추천 생성
         - POST /review_votes/
         """
-        # todo: 없는 review_id 처리
         serializer = ReviewVoteSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        review_vote = ReviewVote.objects.create(user=request.user, **serializer.validated_data)
-        review = review_vote.review
-        review.count_vote += 1
-        review.save()
-        return Response(ReviewVoteSerializer(review_vote).data, status=status.HTTP_201_CREATED)
+
+        review_vote = ReviewVoteService().create(user=request.user, **serializer.validated_data)
+        rtn = ReviewVoteSerializer(review_vote).data
+        return Response(rtn, status=status.HTTP_201_CREATED)
 
     @transaction.atomic
     def destroy(self, request, pk):
@@ -38,8 +37,6 @@ class ReviewVoteViewSet(viewsets.GenericViewSet):
             return Response({"error": "Does not Exists."}, status=status.HTTP_404_NOT_FOUND)
         if review_vote.user != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
-        review = review_vote.review
-        review.count_vote -= 1
-        review.save()
-        review_vote.delete()
+
+        ReviewVoteService().delete(review_vote)
         return Response(status=status.HTTP_200_OK)

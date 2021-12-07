@@ -1,11 +1,10 @@
-from django.db.models import Q
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from movie.filters import MovieFilter
 from movie.models import Movie
 from movie.serializers import MovieSerializer, MovieDetailSerializer
+from movie.services import MovieService
 
 
 class MovieViewSet(viewsets.GenericViewSet):
@@ -18,7 +17,7 @@ class MovieViewSet(viewsets.GenericViewSet):
         영화 리스트 조회
         - GET /movies/
         """
-        filtered_movies = MovieFilter().filter_queryset(request, Movie.objects.all())
+        filtered_movies = MovieService().filter_and_order_movies(request.query_params)
         paginated_movies = self.paginate_queryset(filtered_movies)
 
         rtn = MovieSerializer(paginated_movies, many=True).data
@@ -44,7 +43,7 @@ class MovieViewSet(viewsets.GenericViewSet):
         """
         serializer = MovieSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        movie = Movie.objects.create(**serializer.validated_data)
 
+        movie = MovieService().create(**serializer.validated_data)
         rtn = MovieSerializer(movie).data
         return Response(rtn, status=status.HTTP_201_CREATED)
