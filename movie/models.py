@@ -14,9 +14,10 @@ class Movie(models.Model):
         max_digits=3,
         decimal_places=1,
     )
-    genres = models.CharField(max_length=30, blank=True, null=True)
+    genres = models.TextField()
     summary = models.TextField()
 
     # meta
+    is_yts = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
