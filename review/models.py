@@ -25,7 +25,7 @@ class Review(models.Model):
         max_digits=3,
         decimal_places=1,
     )
-
+    count_vote = models.IntegerField(default=0)
     # meta
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
